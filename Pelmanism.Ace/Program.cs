@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ace;
-using Pelmanism.Ace.View;
 using Pelmanism.Model;
 
 namespace Pelmanism.Ace
@@ -20,23 +19,28 @@ namespace Pelmanism.Ace
 			Engine.Initialize( "ペルマニズム", 800, 600, option );
 
 			var model = new PlayingFlow();
-			var channel = new Channel<IMessage>( model.Run() );
+			var channel = new SteppingChannel<IMessage>( model.Run() );
+			channel.AddMessageHandler<TerminateMessage>( Terminate );
 
 			var scene = new Scene();
-			var layer = new UI.TableLayer( model );
-			var view = new TableView( channel, layer );
+			var layer = new UI.TableLayer( model, channel );
 
 			scene.AddLayer(layer);
 			Engine.ChangeScene( scene );
 
-			var channelTask = channel.RunAsync();
-
 			while( Engine.DoEvents() && !IsFinished )
 			{
 				Engine.Update();
+				channel.Update();
 			}
 
 			Engine.Terminate();
+		}
+
+		private static void Terminate( TerminateMessage msg, Action callback )
+		{
+			IsFinished = true;
+			callback();
 		}
 	}
 }

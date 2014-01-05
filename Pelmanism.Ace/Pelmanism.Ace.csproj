@@ -55,12 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\CardObject.cs" />
+    <Compile Include="UI\CardObject.cs" />
+    <Compile Include="UI\TimerComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Engine\TableLayer.cs" />
-    <Compile Include="View\ITableController.cs" />
-    <Compile Include="View\TableView.cs" />
+    <Compile Include="UI\TableLayer.cs" />
+    <Compile Include="SteppingChannel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
